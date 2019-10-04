@@ -1,83 +1,95 @@
 from graph import *
 
-penColor('purple')        #фон
-rectangle(0, 0, 500, 400)
-brushColor(204, 255, 255)
-rectangle(0, 0, 500, 200)
-brushColor(0, 0, 102)
-rectangle(0, 200, 500, 300)
-penColor(255, 204, 0)
+
+def waves(n):
+    brushColor(255, 204, 0)
+    r = 500 / (n * 2)
+    x = r
+    for i in range(n):
+        circle(x, 310, r)
+        x += 2 * r
 
 
-brushColor(255, 204, 0)
-circle(430, 50, 30)
-rectangle(0, 300, 500, 400)
+def umbrella(k, x, y):
+    penColor(102, 51, 0)
+    penSize(5)
+    line(x, y - 110 * k, x, y)
+    brushColor(230, 30, 0)
+    penSize(1)
+    polygon([(x - 50 * k, y - 110 * k), (x, y - 130 * k),
+             (x + 5 * k, y - 130 * k), (x + 55 * k, y - 110 * k)])
 
-n = 13                   # волны
-r = 500 / (n * 2)
-x = r
-for i in range(n):
-    circle(x, 310, r)
-    x += 2 * r
 
-penColor(102, 51, 0)     #зонтики
-penSize(5)
-line(55, 280, 55, 390)
-brushColor(230, 30, 0)
-penSize(1)
-polygon([(5, 280), (55, 260), (60, 260), (110, 280)])
+def ship(k, x, y):
+    # основа
+    penSize(0)
+    penColor(102, 51, 51)
+    brushColor(102, 51, 51)
+    polygon([(x, y), (x - 60 * k, y + 40 * k),
+             (x - 260 * k, y + 40 * k), (x - 280 * k, y), (x, y)])
+    # мачта
+    penColor('black')
+    brushColor('black')
+    rectangle(x - 180 * k, y, x - 170 * k, y - 120 * k)
+    # парус
+    penSize(1)
+    brushColor(255, 255, 153)
+    polygon([(x - 170 * k, y), (x - 140 * k, y - 60 * k),
+             (x - 80 * k, y - 60 * k), (x - 170 * k, y)])
+    polygon([(x - 170 * k, y - 120 * k), (x - 140 * k, y - 60 * k),
+             (x - 80 * k, y - 60 * k), (x - 170 * k, y - 120 * k)])
+    # иллюминатор
+    penSize(5 * k)
+    brushColor('white')
+    circle(x - 60 * k, y + 20 * k, 10 * k)
 
-penSize(5)
-line(125, 260, 125, 360)
-brushColor(230, 30, 0)
-penSize(1)
-polygon([(75, 260), (125, 240), (130, 240), (180, 260)])
 
-penColor(102, 51, 51)       #кораблики
-brushColor(102, 51, 51)
-polygon([(480, 220), (420, 260), (220, 260), (200, 220), (480, 220)])
-polygon([(190, 210), (160, 230), (50, 230), (40, 210), (190, 210)])
-penSize(0)
-brushColor('black')
-rectangle(300, 220, 310, 100)
-rectangle(100, 210, 105, 155)
-penSize(1)
-penColor('black')
-brushColor(255, 255, 153)
-polygon([(310, 220), (340, 160), (400, 160), (310, 220)])
-polygon([(310, 100), (340, 160), (400, 160), (310, 100)])
-polygon([(105, 210), (120, 183), (150, 183), (105, 210)])
-polygon([(105, 155), (120, 183), (150, 183), (105, 155)])
-penSize(5)
-brushColor('white')
-circle(420, 240, 10)
-penSize(3)
-circle(150, 220, 5)
+def cloud(k, x, y):
+    brushColor('white')
+    penColor('black')
+    penSize(1)
+    for i in range(4):
+        circle(x, y, 15 * k)
+        x += 15 * k
+    x -= 4 * 15 * k - 10 * k
+    y -= 15 * k
+    for u in range(3):
+        circle(x, y, 15 * k)
+        x += 15 * k
 
-brushColor('white')     #облака
-penSize(1)
-circle(150, 50, 15)
-circle(170, 50, 15)
-circle(185, 50, 15)
-circle(200, 50, 15)
-circle(160, 35, 15)
-circle(175, 35, 15)
-circle(190, 35, 15)
 
-circle(50, 50, 10)
-circle(65, 50, 10)
-circle(80, 50, 10)
-circle(95, 50, 10)
-circle(55, 40, 10)
-circle(70, 40, 10)
-circle(85, 40, 10)
+def sun(x, y):
+    penColor(255, 204, 0)
+    brushColor(255, 204, 0)
+    circle(x, y, 30)
 
-circle(120, 110, 13)
-circle(140, 110, 13)
-circle(155, 110, 13)
-circle(170, 110, 13)
-circle(130, 95, 13)
-circle(145, 95, 13)
-circle(160, 95, 13)
+
+def background():
+    penSize(0)
+    brushColor(204, 255, 255)
+    rectangle(0, 0, 500, 200)
+
+    brushColor(0, 0, 102)
+    rectangle(0, 200, 500, 300)
+
+    brushColor(255, 204, 0)
+    rectangle(0, 300, 500, 400)
+
+
+def printImage():
+    windowSize(500, 400)
+    background()
+    sun(430, 50)
+    waves(13)
+    cloud(1, 200, 50)
+    cloud(1.5, 50, 50)
+    cloud(1.3, 150, 110)
+    umbrella(0.7, 150, 330)
+    umbrella(1.1, 70, 390)
+    ship(1, 480, 220)
+    ship(0.5, 200, 195)
+
+
+printImage()
 
 run()
